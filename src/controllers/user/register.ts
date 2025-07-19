@@ -15,19 +15,20 @@ export async function register(req: Request, res: Response) {
         weight: z.number()
     })
 
-    const {name, email, password, telephone, weight, height} = userData.parse(req.body)
+    const userDataParsed = userData.safeParse(req.body)
 
     try {
         const userRepository = new PrismaUserRository
         const registerService = new RegisterService(userRepository)
-    
-        await registerService.execute({name, email, password, telephone, height, weight})
-        
-        res.status(201).send('user created')
+
+        if (!userDataParsed.success) return res.status(400).json(userDataParsed.error)
+        await registerService.execute(userDataParsed.data)
+
+        res.status(201).json({ message: 'user created' })
     }
-    catch(err) {
-        if(err instanceof EmailAlreadyExists) {
-            res.status(401).send(err.message)
+    catch (err) {
+        if (err instanceof EmailAlreadyExists) {
+            res.status(401).send({ message: err.message })
         }
     }
 }
