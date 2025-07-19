@@ -4,6 +4,7 @@
   "scripts": {
     "dev": "npm run services:up && npm run wait-for-postgres && npm run migration:up && nodemon --watch src src/server.ts",
     "test": "jest",
+    "test:integration": "jest -- integration",
     "services:up": "docker compose -f src/infra/compose.dev.yaml --env-file .env.development up -d",
     "services:start": "docker compose -f src/infra/compose.dev.yaml start",
     "services:down": "docker compose -f src/infra/compose.dev.yaml down",
