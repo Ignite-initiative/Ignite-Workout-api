@@ -2,7 +2,7 @@
   "name": "ares-api",
   "version": "1.0.0",
   "scripts": {
-    "dev": "npm run services:up && npm run wait-for-postgres && npm run migration:up && nodemon src/server.ts",
+    "dev": "npm run services:up && npm run wait-for-postgres && npm run migration:up && nodemon --watch src src/server.ts",
     "test": "jest",
     "services:up": "docker compose -f src/infra/compose.dev.yaml --env-file .env.development up -d",
     "services:start": "docker compose -f src/infra/compose.dev.yaml start",
