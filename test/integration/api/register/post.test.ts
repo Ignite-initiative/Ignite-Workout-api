@@ -53,31 +53,31 @@ describe("POST on /register - Account creation", () => {
   })
   test("should return a 400 if name is not sent", async () => {
     const { name, ...userWithoutName } = userRegister
-    const result = await createUser(userWithoutName);
+    const result = await createUser(userWithoutName)
     const convertResult = await result.json()
     expect(result.status).toBe(400)
   })
   test("should return a 400 if email is not sent", async () => {
     const { email, ...userWithoutEmail } = userRegister
-    const result = await createUser(userWithoutEmail);
+    const result = await createUser(userWithoutEmail)
     const convertResult = await result.json()
     expect(result.status).toBe(400)
   })
   test("should return a 400 if password is not sent", async () => {
     const { password, ...userWithoutPassword } = userRegister
-    const result = await createUser(userWithoutPassword);
+    const result = await createUser(userWithoutPassword)
     const convertResult = await result.json()
     expect(result.status).toBe(400)
   })
   test("should return a 400 if height is not sent", async () => {
     const { height, ...userWithoutHeight } = userRegister
-    const result = await createUser(userWithoutHeight);
+    const result = await createUser(userWithoutHeight)
     const convertResult = await result.json()
     expect(result.status).toBe(400)
   })
   test("should return a 400 if weight is not sent", async () => {
     const { weight, ...userWithoutWeight } = userRegister
-    const result = await createUser(userWithoutWeight);
+    const result = await createUser(userWithoutWeight)
     const convertResult = await result.json()
     expect(result.status).toBe(400)
   })
