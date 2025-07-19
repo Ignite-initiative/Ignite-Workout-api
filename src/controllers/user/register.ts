@@ -15,13 +15,14 @@ export async function register(req: Request, res: Response) {
         weight: z.number()
     })
 
-    const { name, email, password, telephone, weight, height } = userData.parse(req.body)
+    const userDataParsed = userData.safeParse(req.body)
 
     try {
         const userRepository = new PrismaUserRository
         const registerService = new RegisterService(userRepository)
 
-        await registerService.execute({ name, email, password, telephone, height, weight })
+        if (!userDataParsed.success) return res.status(400).json(userDataParsed.error)
+        await registerService.execute(userDataParsed.data)
 
         res.status(201).json({ message: 'user created' })
     }
