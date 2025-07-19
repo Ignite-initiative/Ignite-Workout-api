@@ -81,6 +81,13 @@ describe("POST on /register - Account creation", () => {
     const convertResult = await result.json()
     expect(result.status).toBe(400)
   })
+  test("should return a 401 if email already exists", async () => {
+    const result = await createUser(userRegister);
+    const repeatedResult = await createUser(userRegister)
+    const convertResult = await repeatedResult.json()
+    expect(repeatedResult.status).toBe(401)
+    expect(convertResult.message).toBe('Email is already being used')
+  })
 })
 
 
