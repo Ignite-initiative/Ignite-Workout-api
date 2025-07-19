@@ -28,7 +28,7 @@ export async function register(req: Request, res: Response) {
     }
     catch (err) {
         if (err instanceof EmailAlreadyExists) {
-            res.status(401).send(err.message)
+            res.status(401).send({ message: err.message })
         }
     }
 }
