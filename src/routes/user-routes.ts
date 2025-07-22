@@ -1,17 +1,11 @@
 import { Router } from 'express'
-import { UserController } from '../controllers/user/user-controller'
-import { register } from '../controllers/user/register'
-import { login } from '../controllers/user/login'
+import { AuthController } from '../controllers/auth-controller'
 
-
-const userController = new UserController
+const authController = new AuthController
 
 const userRoutes = Router()
 
-userRoutes.get('/users', userController.showUsers)
-userRoutes.delete('/users', userController.deleteUsers)
-
-userRoutes.post('/login', login)
-userRoutes.post('/register', register)
+userRoutes.post('auth/login', authController.login)
+userRoutes.post('auth/register', authController.register)
 
 export default userRoutes;
