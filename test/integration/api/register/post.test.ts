@@ -27,7 +27,7 @@ describe("POST on /register - Account creation", () => {
     height?: number,
     weight?: number
   }) {
-    const result = await fetch('http://localhost:3000/register', {
+    const result = await fetch('http://localhost:3000/auth/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
