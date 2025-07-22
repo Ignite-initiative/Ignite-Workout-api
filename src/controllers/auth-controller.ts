@@ -7,12 +7,19 @@ import { InvalidatedCredentials } from "../services/errors/invalidated-credentia
 import { z } from "zod";
 
 export class AuthController{
-    constructor(
-        private userPrismaRository = new PrismaUserRository,
-        private loginService = new LoginService(userPrismaRository),
-        private registerService = new RegisterService(userPrismaRository)
-    ) {}
+    private userPrismaRository: PrismaUserRository
+    private loginService: LoginService
+    private registerService: RegisterService
     
+    constructor() {
+    this.userPrismaRository = new PrismaUserRository()
+    this.loginService = new LoginService(this.userPrismaRository)
+    this.registerService = new RegisterService(this.userPrismaRository)
+
+    this.register = this.register.bind(this)
+    this.login = this.login.bind(this)
+    }
+
     register = async (req: Request, res: Response) => {
         const userData = z.object({
             name: z.string(),
@@ -22,13 +29,13 @@ export class AuthController{
             height: z.number(),
             weight: z.number()
         })
-    
+
         const userDataParsed = userData.safeParse(req.body)
-    
+
         try {
             if (!userDataParsed.success) return res.status(400).json(userDataParsed.error)
             await this.registerService.execute(userDataParsed.data)
-    
+
             res.status(201).json({ message: 'user created' })
         }
         catch (err) {
@@ -37,17 +44,17 @@ export class AuthController{
             }
         }
     }
-    
+
     login = async (req: Request, res: Response) => {
         const loginData = z.object({
             email: z.string().email(),
             password: z.string().min(6),
         })
         const {email, password} = loginData.parse(req.body)
-    
+
         try {
             const token = await this.loginService.execute({email, password})
-    
+
             res.json({token})
         }
         catch(err) {
@@ -57,4 +64,3 @@ export class AuthController{
         }
     }
 }
-
