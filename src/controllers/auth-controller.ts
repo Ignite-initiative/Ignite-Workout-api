@@ -1,23 +1,18 @@
 import { Request, Response } from "express";
-import { RegisterService } from "../services/user/register";
-import { PrismaUserRository } from "../repositories/prisma/prisma-user-repository";
-import { EmailAlreadyExists } from "../services/errors/email-already-exists";
 import { LoginService } from "../services/user/login";
+import { RegisterService } from "../services/user/register";
+import { EmailAlreadyExists } from "../services/errors/email-already-exists";
 import { InvalidatedCredentials } from "../services/errors/invalidated-credentials";
+import { UserRepository } from "../repositories/user-repository";
 import { z } from "zod";
 
 export class AuthController{
-    private userPrismaRository: PrismaUserRository
     private loginService: LoginService
     private registerService: RegisterService
     
-    constructor() {
-    this.userPrismaRository = new PrismaUserRository()
-    this.loginService = new LoginService(this.userPrismaRository)
-    this.registerService = new RegisterService(this.userPrismaRository)
-
-    this.register = this.register.bind(this)
-    this.login = this.login.bind(this)
+    constructor(private repository: UserRepository) {
+    this.loginService = new LoginService(repository)
+    this.registerService = new RegisterService(repository)
     }
 
     register = async (req: Request, res: Response) => {
