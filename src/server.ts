@@ -1,5 +1,5 @@
 import express from 'express'
-import userRoutes from './routes/user-routes'
+import userRoutes from './routes/auth-routes'
 import prisma from './utils/prismaClient'
 
 const app = express()
