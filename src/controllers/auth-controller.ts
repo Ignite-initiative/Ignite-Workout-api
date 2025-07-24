@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { RegisterService } from "../services/auth/register";
 import { EmailAlreadyExists } from "../services/errors/email-already-exists";
-import { InvalidatedCredentials } from "../services/errors/invalidated-credentials";
 import { UserRepository } from "../repositories/user-repository";
 import { z } from "zod";
 
