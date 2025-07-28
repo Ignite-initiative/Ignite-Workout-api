@@ -3,8 +3,6 @@ import { EmailAlreadyExists } from "../errors/email-already-exists";
 import { UserModel } from "../models/User";
 import { z } from "zod";
 
-
-
 export async function register(req: Request, res: Response) {
     const userData = z.object({
         name: z.string(),
@@ -30,4 +28,4 @@ export async function register(req: Request, res: Response) {
                 res.status(401).send({ message: err.message })
             }
         }
-    }
+}

@@ -26,7 +26,7 @@ export class UserModel {
         return prisma.user.create({ data })
     }
 
-    static async register({
+    async register({
         name,
         email,
         password,
@@ -35,12 +35,12 @@ export class UserModel {
         weight
     }: RegisterUserData): Promise<User> {
 
-        const emailUsed = await this.findByEmail(email)
+        const emailUsed = await UserModel.findByEmail(email)
         if (emailUsed) throw new EmailAlreadyExists()
 
         const password_hash = await hash(password, 10)
 
-        const user = await this.create({
+        const user = await UserModel.create({
             name,
             email,
             password_hash,
