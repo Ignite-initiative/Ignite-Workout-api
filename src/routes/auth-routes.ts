@@ -1,12 +1,8 @@
 import { Router } from 'express'
-import { AuthController } from '../controllers/auth-controller'
-import { PrismaUserRository } from '../repositories/prisma/prisma-user-repository'
-
-const prismaUserRository = new PrismaUserRository
-const authController = new AuthController(prismaUserRository)
+import { register } from '../controllers/auth-controller'
 
 const userRoutes = Router()
 
-userRoutes.post('/auth/register', authController.register)
+userRoutes.post('/auth/register', register)
 
 export default userRoutes;

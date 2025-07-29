@@ -1,31 +1,25 @@
 import { Request, Response } from "express";
-import { RegisterService } from "../services/auth/register";
-import { EmailAlreadyExists } from "../services/errors/email-already-exists";
-import { UserRepository } from "../repositories/user-repository";
+import { EmailAlreadyExists } from "../errors/email-already-exists";
+import { UserModel } from "../models/User";
 import { z } from "zod";
 
-export class AuthController{
-    private registerService: RegisterService
+export async function register(req: Request, res: Response) {
+    const userData = z.object({
+        name: z.string(),
+        email: z.string().email(),
+        password: z.string().min(6),
+        telephone: z.string().nullable(),
+        height: z.number(),
+        weight: z.number()
+    })
     
-    constructor(private repository: UserRepository) {
-    this.registerService = new RegisterService(repository)
-    }
+    const userDataParsed = userData.safeParse(req.body)
+    
+    try {
+            const userModel = new UserModel
 
-    register = async (req: Request, res: Response) => {
-        const userData = z.object({
-            name: z.string(),
-            email: z.string().email(),
-            password: z.string().min(6),
-            telephone: z.string().nullable(),
-            height: z.number(),
-            weight: z.number()
-        })
-
-        const userDataParsed = userData.safeParse(req.body)
-
-        try {
             if (!userDataParsed.success) return res.status(400).json(userDataParsed.error)
-            await this.registerService.execute(userDataParsed.data)
+            await userModel.register(userDataParsed.data)
 
             res.status(201).json({ message: 'user created' })
         }
@@ -34,5 +28,4 @@ export class AuthController{
                 res.status(401).send({ message: err.message })
             }
         }
-    }
 }
