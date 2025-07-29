@@ -3,6 +3,6 @@ import { register } from '../controllers/auth-controller'
 
 const userRoutes = Router()
 
-userRoutes.post('/auth/register', register)
+userRoutes.post('/api/v1/auth/register', register)
 
 export default userRoutes;
