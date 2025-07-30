@@ -7,8 +7,8 @@ const app = express()
 
 app.use(express.json())
 
-app.use(userRoutes)
-app.use(statusRoutes)
+app.use("/api/v1", userRoutes)
+app.use("/api/v1", statusRoutes)
 
 prisma.$connect()
 

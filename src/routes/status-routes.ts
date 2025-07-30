@@ -3,6 +3,6 @@ import status from "../controllers/status-controller";
 
 const statusRoutes = Router()
 
-statusRoutes.get("/api/v1/status", status)
+statusRoutes.get("/status", status)
 
 export default statusRoutes;
