@@ -17,7 +17,7 @@ describe("GET on /status", () => {
         expect(result.status).toBe(200)
         expect(convertResult.status).toBe('Ok')
     })
-    test("Should be return database version", async () => {
+    test("Should be returned database version", async () => {
         const result = await getStatus()
         const convertResult = await result.json()
         const versionResult = convertResult.dependencies.database.version
