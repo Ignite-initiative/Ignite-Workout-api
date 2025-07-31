@@ -47,7 +47,6 @@ model Set {
   category        String     @default("valid")
   repsPlanned     Int
   weightPlanned   Float
-  datePLanned     DateTime
   repsCompleted   Int?
   weightUsed      Float?
   dateCompleted   DateTime?
