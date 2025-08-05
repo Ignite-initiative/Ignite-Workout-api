@@ -14,8 +14,7 @@ export async function register(req: Request, res: Response){
           return res.status(401).send({ message: error })
      }
 }
-
-export async function complete(req: Request, res: Response){
+export async function updateStatus(req: Request, res: Response){
      const workoutId = req.params.id
 
      try {
@@ -28,7 +27,6 @@ export async function complete(req: Request, res: Response){
           res.status(204).send({message: error})
      }
 }
-
 export async function updateDate(req: Request, res: Response){
      const workoutId = req.params.id
      const date = req.body.date
@@ -41,5 +39,18 @@ export async function updateDate(req: Request, res: Response){
      }
      catch(error){
           res.status(204).send({message: error})
+     }
+}
+export async function remove(req: Request, res: Response){
+     const workoutId = req.params.id
+
+     try {
+          await workoutModel.delete(workoutId)
+
+          res.status(200).send("Workout Deleted")
+
+     }
+     catch(error){
+          res.status(404).send({message: error})
      }
 }
