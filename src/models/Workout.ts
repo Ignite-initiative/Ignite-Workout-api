@@ -22,4 +22,18 @@ export class WorkoutModel{
             }
         })
     }
+    async updateStatus(id: string, status: boolean) {
+        if(status) {
+            await prisma.workout.update({
+                where: {id: id},
+                data: {isCompleted: false}
+            })
+        }
+        else{
+            await prisma.workout.update({
+                where: {id: id},
+                data: {isCompleted: true}
+            })
+        }
+    }
 }
