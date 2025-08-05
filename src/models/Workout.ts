@@ -45,4 +45,9 @@ export class WorkoutModel{
             data: {date: new Date(date)}
         })
     }
+    async delete(id: string) {
+        await prisma.workout.delete({
+            where: {id: id},
+        })
+    }
 }
