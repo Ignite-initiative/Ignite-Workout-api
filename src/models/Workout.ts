@@ -1,6 +1,5 @@
 import prisma from "../utils/prismaClient";
-import { Prisma, Workout } from "@prisma/client";
-import { Request, Response } from "express";
+import { Workout } from "@prisma/client";
 
 interface RegisterWorkoutData{
     name: string,
@@ -43,7 +42,7 @@ export class WorkoutModel{
     async updateDate(id: string, date: Date) {
         await prisma.workout.update({
             where: {id: id},
-            data: {date: date}
+            data: {date: new Date(date)}
         })
     }
 }
