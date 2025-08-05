@@ -10,7 +10,16 @@ interface RegisterWorkoutData{
 }
 
 export class WorkoutModel{
-    async register({ name, date, isCompleted, userId }: RegisterWorkoutData){
+    static async findUnique(id: string){
+        return prisma.workout.findUnique( { where: { id } } ) 
+    }
+
+    async register({ 
+        name, 
+        date, 
+        isCompleted, 
+        userId 
+    }: RegisterWorkoutData): Promise<Workout>{
         return await prisma.workout.create({
             data: { 
                 name,
@@ -22,18 +31,13 @@ export class WorkoutModel{
             }
         })
     }
+
     async updateStatus(id: string, status: boolean) {
-        if(status) {
-            await prisma.workout.update({
-                where: {id: id},
-                data: {isCompleted: false}
-            })
-        }
-        else{
-            await prisma.workout.update({
-                where: {id: id},
-                data: {isCompleted: true}
-            })
-        }
+        const workout = await WorkoutModel.findUnique(id)
+
+        await prisma.workout.update({
+            where: {id: id},
+            data: {isCompleted: !workout?.isCompleted}
+        })
     }
 }
