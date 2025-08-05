@@ -17,9 +17,10 @@ export async function register(req: Request, res: Response){
 
 export async function complete(req: Request, res: Response){
      const workoutId = req.body.id
+     const workoutStatus = req.body.isCompleted
 
      try {
-         await workoutModel.complete(workoutId)
+         await workoutModel.updateStatus(workoutId, workoutStatus)
 
          res.status(200).send("Workout Completed!")
      }
