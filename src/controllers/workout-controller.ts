@@ -17,12 +17,26 @@ export async function register(req: Request, res: Response){
 
 export async function complete(req: Request, res: Response){
      const workoutId = req.params.id
-     const workoutStatus = req.body.isCompleted
 
      try {
-          await workoutModel.updateStatus(workoutId, workoutStatus)
+          await workoutModel.updateStatus(workoutId)
 
           res.status(200).send("Workout status updated!")
+
+     }
+     catch(error){
+          res.status(204).send({message: error})
+     }
+}
+
+export async function updateDate(req: Request, res: Response){
+     const workoutId = req.params.id
+     const date = req.body.date
+
+     try {
+          await workoutModel.updateDate(workoutId, date)
+
+          res.status(200).send("Workout date updated!")
 
      }
      catch(error){
