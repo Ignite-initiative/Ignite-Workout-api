@@ -33,21 +33,7 @@ export class WorkoutModel{
             user: { connect: {id: userId}}
         })
     }    
-    async updateStatus(id: string) {
-        const workout = await WorkoutModel.findUnique(id)
-        if(!workout) throw new workoutNotFound()
-            
-            await prisma.workout.update({
-                where: {id: id},
-                data: {isCompleted: !workout?.isCompleted}
-            })
-        }
-        async updateDate(id: string, date: Date) {
-            await prisma.workout.update({
-                where: {id: id},
-                data: {date: new Date(date)}
-            })
-        }
+
         async delete(id: string) {
             await prisma.workout.delete({
                 where: {id: id},
