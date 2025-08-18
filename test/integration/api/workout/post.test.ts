@@ -41,6 +41,8 @@ describe("POST on /workout", () => {
         userId: string; 
     }
 
+    const requiredFields: (keyof createWorkoutPayload)[] = ["userId", "name", "date"]
+
     async function createWorkout(workout: createWorkoutPayload) {
         const result = await fetch('http://localhost:3000/api/v1/workout/register', {
             method: 'POST',
@@ -59,20 +61,10 @@ describe("POST on /workout", () => {
         expect(result.status).toBe(201)
         expect(convertResult.message).toBe('Workout Created!')
     })
-    test("Should return a status 400 if userId is not send", async () => {
-        const {userId, ...workoutWithoutUserId} = workoutRegister
-        const result = await createWorkout(workoutWithoutUserId as any)
-        expect(result.status).toBe(400)
-    })
-    test("Should return a status 400 if name is not send", async () => {
-        const {name, ...workoutWithoutName} = workoutRegister
-        const result = await createWorkout(workoutWithoutName as any)
-        expect(result.status).toBe(400)
-    })
-        test("Should return a status 400 if date is not send", async () => {
-        const {date, ...workoutWithoutDate} = workoutRegister
-        const result = await createWorkout(workoutWithoutDate as any)
-        expect(result.status).toBe(400)
-    })
 
+    test.each(requiredFields)("Should return a status 400 if %s is not send", async (field) => {
+        const {[field]: ignored, ...invalidWorkout} = workoutRegister
+        const result = await createWorkout(invalidWorkout as any)
+        expect(result.status).toBe(400)
+    })
 })
