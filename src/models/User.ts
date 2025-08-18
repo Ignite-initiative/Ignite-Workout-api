@@ -1,6 +1,6 @@
 import prisma from '../utils/prismaClient'
 import { Prisma, User } from '@prisma/client'
-import { EmailAlreadyExists } from "../errors/email-already-exists";
+import { EmailAlreadyExists } from "../errors/auth/email-already-exists";
 import { hash } from "bcryptjs";
 
 

@@ -1,4 +1,3 @@
-import { connect } from "http2";
 import prisma from "../utils/prismaClient";
 import { Workout, Prisma } from "@prisma/client";
 import { workoutNotFound } from "../errors/workout/workout-errors";
