@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { EmailAlreadyExists } from "../errors/email-already-exists";
+import { EmailAlreadyExists } from "../errors/auth/email-already-exists";
 import { UserModel } from "../models/User";
 import { z } from "zod";
 
