@@ -1,11 +1,4 @@
 # Ignite Workout API
-
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![License][license-shield]][license-url]
-
 <br />
 <div align="center">
   <a href="https://github.com/Ignite-initiative/Ignite-Workout-api">
@@ -73,13 +66,13 @@ O **Ignite Workout API** é uma aplicação backend desenvolvida em **Node.js + 
    ```
 3. Configure o banco de dados no arquivo `.env`
    ```env
-POSTGRES_USER=user
-POSTGRES_PASSWORD=password
-POSTGRES_DB=database
-POSTGRES_HOST=localhost
-POSTGRES_PORT=5432
-DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
-JWT_SECRET_KEY=secretkey
+   POSTGRES_USER=user
+   POSTGRES_PASSWORD=password
+   POSTGRES_DB=database
+   POSTGRES_HOST=localhost
+   POSTGRES_PORT=5432
+   DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
+   JWT_SECRET_KEY=secretkey
    ```
 4. Rode a aplicação
    ```sh
