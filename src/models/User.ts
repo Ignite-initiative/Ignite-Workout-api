@@ -14,7 +14,7 @@ interface RegisterUserData {
 }
 
 export class UserModel {
-    static async findByEmail(email: string): Promise<User | null> {
+    async findByEmail(email: string): Promise<User | null> {
         return prisma.user.findUnique({ where: { email } })
     }
 
@@ -35,7 +35,7 @@ export class UserModel {
         weight
     }: RegisterUserData): Promise<User> {
 
-        const emailUsed = await UserModel.findByEmail(email)
+        const emailUsed = await this.findByEmail(email)
         if (emailUsed) throw new EmailAlreadyExists()
 
         const password_hash = await hash(password, 10)
