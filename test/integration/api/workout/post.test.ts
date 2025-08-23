@@ -1,7 +1,9 @@
 import prisma from "../../../../src/utils/prismaClient";
+import jwt from 'jsonwebtoken'
 
 describe("POST on /workout", () => {
     let userId: string
+    let token: string
 
     beforeAll(async () => {
         await prisma.workout.deleteMany()
@@ -18,6 +20,16 @@ describe("POST on /workout", () => {
             }
         })
 
+        userId = user.id
+
+        token = jwt.sign(
+            { 
+                userId: user.id, 
+                email: user.email,
+            }, 
+            process.env.JWT_SECRET_KEY || "testkey", 
+            { expiresIn: '12h' }
+        );
         workoutRegister.userId = user.id
     })
 
@@ -47,7 +59,8 @@ describe("POST on /workout", () => {
         const result = await fetch('http://localhost:3000/api/v1/workout/register', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify(workout)
         })
