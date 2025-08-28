@@ -9,6 +9,11 @@ interface RegisterWorkoutData{
     userId: string; 
 }
 
+interface UpdateWorkoutData{
+    date: Date,
+    isComplete: boolean
+}
+
 export class WorkoutModel{
     static async create(data: Prisma.WorkoutCreateInput): Promise<Workout> {
         return await prisma.workout.create({ data })
@@ -33,10 +38,15 @@ export class WorkoutModel{
             user: { connect: {id: userId}}
         })
     }    
-
-        async delete(id: string) {
-            await prisma.workout.delete({
-                where: {id: id},
-            })
-        }
+    async upate(id: string, data: UpdateWorkoutData) {
+        return await prisma.workout.update({
+            where: {id: id},
+            data: data 
+        })
+    } 
+    async delete(id: string) {
+        await prisma.workout.delete({
+            where: {id: id},
+        })
     }
+}
