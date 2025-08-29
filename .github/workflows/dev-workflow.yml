@@ -1,0 +1,22 @@
+name: CI-dev
+
+on: [pull_request, push]
+
+jobs:
+  continuous-integration:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Cosw
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20'
+
+      - name: Install dependencies and run tests
+        run: |
+          npm install
+          npm run dev
+          npm run test:integration
