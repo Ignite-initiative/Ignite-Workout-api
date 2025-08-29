@@ -1,11 +1,13 @@
 import prisma from "../../../../src/utils/prismaClient";
 import jwt from 'jsonwebtoken'
+import orchestrator from '../../orchestrator';
 
 describe("POST on /workout", () => {
     let userId: string
     let token: string
 
     beforeAll(async () => {
+        await orchestrator.waitForAllServices();
         await prisma.workout.deleteMany()
         await prisma.user.deleteMany()
 
@@ -23,11 +25,11 @@ describe("POST on /workout", () => {
         userId = user.id
 
         token = jwt.sign(
-            { 
-                userId: user.id, 
+            {
+                userId: user.id,
                 email: user.email,
-            }, 
-            process.env.JWT_SECRET_KEY || "testkey", 
+            },
+            process.env.JWT_SECRET_KEY || "testkey",
             { expiresIn: '12h' }
         );
         workoutRegister.userId = user.id
@@ -40,17 +42,17 @@ describe("POST on /workout", () => {
     })
 
     const workoutRegister = {
-            name: "treino 1",
-            date: new Date('2011-11-11'),
-            isCompleted: false,
-            userId: ""
+        name: "treino 1",
+        date: new Date('2011-11-11'),
+        isCompleted: false,
+        userId: ""
     }
 
     type createWorkoutPayload = {
         name: string,
         date: Date,
         isCompleted: boolean,
-        userId: string; 
+        userId: string;
     }
 
     const requiredFields: (keyof createWorkoutPayload)[] = ["userId", "name", "date"]
@@ -64,9 +66,9 @@ describe("POST on /workout", () => {
             },
             body: JSON.stringify(workout)
         })
-        return result; 
+        return result;
     }
-    
+
 
     test("Should return a status 201 on success", async () => {
         const result = await createWorkout(workoutRegister)
@@ -76,7 +78,7 @@ describe("POST on /workout", () => {
     })
 
     test.each(requiredFields)("Should return a status 400 if %s is not send", async (field) => {
-        const {[field]: ignored, ...invalidWorkout} = workoutRegister
+        const { [field]: ignored, ...invalidWorkout } = workoutRegister
         const result = await createWorkout(invalidWorkout as any)
         expect(result.status).toBe(400)
     })
