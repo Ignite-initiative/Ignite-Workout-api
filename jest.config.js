@@ -7,7 +7,7 @@ jestConfig = {
   testEnvironment: 'node',
   moduleDirectories: ['node_modules', '<rootDir>'],
   transform: {
-    '^.+\\.ts?$': '@swc/jest'
+    '^.+\\.ts?$': 'ts-jest'
   }
 };
 
