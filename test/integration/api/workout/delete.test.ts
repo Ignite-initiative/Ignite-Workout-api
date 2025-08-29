@@ -1,11 +1,13 @@
 import prisma from "../../../../src/utils/prismaClient";
 import jwt from 'jsonwebtoken'
+import orchestrator from '../../orchestrator';
 
 describe("DELETE on /workout", () => {
     let workoutId: string
     let token: string
 
     beforeAll(async () => {
+        await orchestrator.waitForAllServices();
         await prisma.workout.deleteMany()
         await prisma.user.deleteMany()
 
@@ -30,11 +32,11 @@ describe("DELETE on /workout", () => {
         })
 
         token = jwt.sign(
-            { 
-                userId: user.id, 
+            {
+                userId: user.id,
                 email: user.email,
-            }, 
-            process.env.JWT_SECRET_KEY || "testkey", 
+            },
+            process.env.JWT_SECRET_KEY || "testkey",
             { expiresIn: '12h' }
         );
 
@@ -67,12 +69,12 @@ describe("DELETE on /workout", () => {
     })
     test("should be return 401 if user does not have access", async () => {
         const result = await fetch(`http://localhost:3000/api/v1/workout/${workoutId}`, {
-        method: "DELETE",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer token_invalido"
-        }
-    })
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer token_invalido"
+            }
+        })
         expect(result.status).toBe(401)
     })
 })

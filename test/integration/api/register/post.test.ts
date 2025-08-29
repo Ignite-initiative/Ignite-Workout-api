@@ -1,8 +1,12 @@
 import prisma from '../../../../src/utils/prismaClient';
-
+import orchestrator from '../../orchestrator';
 describe("POST on /register - Account creation", () => {
 
-  beforeEach(cleanUsers);
+  beforeEach(async () => {
+    await cleanUsers();
+    await orchestrator.waitForAllServices();
+
+  })
 
   async function cleanUsers() {
     {
