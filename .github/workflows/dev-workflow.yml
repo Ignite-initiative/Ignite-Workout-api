@@ -6,39 +6,46 @@ jobs:
   continuous-integration:
     runs-on: ubuntu-latest
 
-    env:
-      DATABASE_URL: ${{ secrets.DATABASE_URL }}
-
     services:
       postgres:
         image: postgres:15
         ports:
           - 5432:5432
         env:
-          POSTGRES_USER: ${{ secrets.PG_USER }}
-          POSTGRES_PASSWORD: ${{ secrets.PG_PASSWORD }}
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
           POSTGRES_DB: mydb
         options: >-
-          --health-cmd="pg_isready"
+          --health-cmd="pg_isready -U postgres -d mydb"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=5
 
-
     steps:
-      - name: Checkout code
+      - name: Checkout source code
         uses: actions/checkout@v3
 
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: '20'
 
       - name: Install dependencies
         run: npm install
 
+      - name: Wait for Postgres to be ready
+        run: |
+          until pg_isready -h localhost -p 5432 -U postgres; do
+            echo "Waiting for Postgres..."
+            sleep 2
+          done
+
       - name: Run Prisma migrations
-        run: npm run migration:up
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/mydb
+        run: npx prisma migrate dev --schema=src/infra/prisma/schema.prisma
 
       - name: Run integration tests
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/mydb
         run: npx jest --runInBand
