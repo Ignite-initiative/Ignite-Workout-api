@@ -31,8 +31,11 @@ jobs:
           node-version: '20'
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
+      - name: Rebuild native modules
+        run: npm rebuild @swc/core
+        
       - name: Wait for Postgres to be ready
         run: |
           until pg_isready -h localhost -p 5432 -U postgres; do
@@ -49,3 +52,5 @@ jobs:
         env:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/mydb
         run: npx jest --runInBand
+
+
