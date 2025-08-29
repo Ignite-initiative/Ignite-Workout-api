@@ -18,7 +18,7 @@ export class WorkoutModel{
     static async create(data: Prisma.WorkoutCreateInput): Promise<Workout> {
         return await prisma.workout.create({ data })
     }
-    static async findUnique(id: string,  ): Promise<Workout | null>{
+    async findUnique(id: string,  ): Promise<Workout | null>{
         return prisma.workout.findUnique( { where: { id } } ) 
     }
     static async count(where?: Prisma.WorkoutWhereInput): Promise<number>{
