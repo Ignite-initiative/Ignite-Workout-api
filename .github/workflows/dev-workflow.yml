@@ -1,13 +1,32 @@
 name: CI-dev
 
-on: [pull_request, push]
+on: [push, pull_request]
 
 jobs:
   continuous-integration:
     runs-on: ubuntu-latest
 
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+    services:
+      postgres:
+        image: postgres:15
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: ${{ secrets.PG_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.PG_PASSWORD }}
+          POSTGRES_DB: mydb
+        options: >-
+          --health-cmd="pg_isready"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+
     steps:
-      - name: Checkout Cosw
+      - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Set up Node.js
@@ -15,8 +34,11 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install dependencies and run tests
-        run: |
-          npm install
-          npm run dev
-          npm run test:integration
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run Prisma migrations
+        run: npm run migration:up
+
+      - name: Run integration tests
+        run: npx jest --runInBand
