@@ -16,6 +16,20 @@ export async function register(req: Request, res: Response){
      }
 }
 
+export async function update(req: Request, res: Response) {
+     const { id } = req.params
+     const data = req.body
+     
+     try{
+          await workoutModel.upate(id, data)
+
+          res.status(200).send("Workout Updated")
+     }
+     catch(error){
+          res.status(401).send({message: error})
+     }
+}
+
 export async function remove(req: Request, res: Response){
      const workoutId = req.params.id
 
