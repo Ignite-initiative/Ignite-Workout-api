@@ -5,6 +5,6 @@ import authenticateToken from "../middlewares/authenticateToken";
 const exerciseRoutes = Router()
 
 exerciseRoutes.post("/exercise", authenticateToken, exercise.create)
-exerciseRoutes.patch("/exercise", authenticateToken, exercise.update)
+exerciseRoutes.patch("/exercise/:id", authenticateToken, exercise.update)
 
 export default exerciseRoutes;
