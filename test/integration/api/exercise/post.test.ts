@@ -48,7 +48,7 @@ describe("POST on /exercise", () => {
     afterEach(async () => {
         await prisma.exercise.deleteMany()
         await prisma.workout.deleteMany()
-        await prisma.user.deleteMany
+        await prisma.user.deleteMany()
         await prisma.$disconnect()
     })
 
@@ -72,7 +72,7 @@ describe("POST on /exercise", () => {
 
     test("Should return a status 201 at sucess ", async () => {
         const exercise = {
-            name: "Brench Press",
+            name: "Bench Press",
             category: "chest",
             workoutId: workoutId
         }
