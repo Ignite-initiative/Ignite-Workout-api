@@ -12,6 +12,16 @@ interface createSetData {
     exerciseId: string
 }
 
+interface updateSetData {
+    category?: string,
+    repsPlanned?: number,
+    weightPlanned?: number,
+    repsCompleted?: number,
+    weightUsed?: number,
+    dateCompleted?: Date,
+    rir?: number
+}
+
 export class SetsModel {
     async create(data: createSetData): Promise<Set | null> {
         const { category, repsPlanned, weightPlanned, exerciseId } = data
@@ -23,6 +33,12 @@ export class SetsModel {
                 weightPlanned,
                 exerciseId
             }
+        })
+    }
+    async update(data: updateSetData, id: string) {
+        return await prisma.set.update({
+            where: { id, },
+            data
         })
     }
 }
