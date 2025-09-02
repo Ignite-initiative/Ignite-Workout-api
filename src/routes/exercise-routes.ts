@@ -8,5 +8,4 @@ exerciseRoutes.post("/exercise", authenticateToken, exercise.create)
 exerciseRoutes.patch("/exercise/:id", authenticateToken, exercise.update)
 exerciseRoutes.delete("/exercise/:id", authenticateToken, exercise.remove)
 
-
 export default exerciseRoutes;
