@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, response, Response } from "express";
 import { ExerciseModel } from "../models/Exercise";
 
 const exerciseModel = new ExerciseModel
@@ -28,5 +28,18 @@ export async function update(req: Request, res: Response) {
     catch(error) {
         res.status(401).send({ message: error }
         )
+    }
+}
+
+export async function remove(req: Request, res: Response) {
+    const { id } = req.params
+
+    try {
+        await exerciseModel.delete(id)
+
+        res.status(201).send("Ecercise Deleted")
+    }
+    catch(error) {
+        res.status(401).send({ message: error })
     }
 }
