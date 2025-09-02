@@ -35,10 +35,13 @@ export class SetsModel {
             }
         })
     }
-    async update(data: updateSetData, id: string) {
+    async update(data: updateSetData, id: string): Promise<Set | null> {
         return await prisma.set.update({
             where: { id, },
             data
         })
+    }
+    async delete(id: string): Promise<Set | null> {
+        return await prisma.set.delete({ where: { id } })
     }
 }
