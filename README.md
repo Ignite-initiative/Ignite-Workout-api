@@ -134,7 +134,7 @@ Projeto: [Ignite Workout API](https://github.com/Ignite-initiative/Ignite-Workou
 
 ---
 
-## 🙏 Agradecimentos
+## Docs
 
 - [Prisma ORM Docs](https://www.prisma.io/docs)  
 - [Express Docs](https://expressjs.com/)  
