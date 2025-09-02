@@ -25,4 +25,8 @@ export class ExerciseModel {
             data: data
         })
     }
+
+    async delete(id: string): Promise<Exercise | null> {
+        return await prisma.exercise.delete({ where: { id } })
+    }
 }
