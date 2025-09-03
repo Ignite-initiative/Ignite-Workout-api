@@ -2,8 +2,10 @@ import { Router } from "express";
 import authenticateToken from "../middlewares/authenticateToken";
 import * as set from "../controllers/set-controller"
 
-const setRouter = Router()
+const setRoutes = Router()
 
-setRouter.post("/set", authenticateToken, set.create)
-setRouter.patch("/set/:id", authenticateToken, set.update)
-setRouter.delete("/set/:id", authenticateToken, set.remove)
+setRoutes.post("/set", authenticateToken, set.create)
+setRoutes.patch("/set/:id", authenticateToken, set.update)
+setRoutes.delete("/set/:id", authenticateToken, set.remove)
+
+export default setRoutes;
