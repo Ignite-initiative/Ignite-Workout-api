@@ -23,7 +23,19 @@ export async function update(req: Request, res: Response) {
     try {
         await setModel.update(data, id)
 
-        res.status(201).send("Set created")
+        res.status(201).send("Set updated")
+    }
+    catch(error) {
+        res.status(401).send({ message: error })
+    }
+}
+
+export async function remove(req: Request, res: Response) {
+    const { id } = req.params
+    try {
+        await setModel.delete(id)
+
+        res.status(201).send("Set deleted")
     }
     catch(error) {
         res.status(401).send({ message: error })
