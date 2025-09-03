@@ -6,3 +6,4 @@ const setRouter = Router()
 
 setRouter.post("/set", authenticateToken, set.create)
 setRouter.patch("/set/:id", authenticateToken, set.update)
+setRouter.delete("/set/:id", authenticateToken, set.remove)
