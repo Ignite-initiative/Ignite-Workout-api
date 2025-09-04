@@ -4,7 +4,11 @@ import { SetsModel } from "../models/Sets";
 const setModel = new SetsModel
 
 export async function create(req: Request, res: Response) {
-    const  { data } = req.body
+    const data = req.body
+
+    if (!data) {
+        return res.status(400).json({ message: "Missing data in request body" });
+    }
 
     try {
         await setModel.create(data)

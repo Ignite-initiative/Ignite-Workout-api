@@ -19,18 +19,19 @@ interface updateSetData {
     repsCompleted?: number,
     weightUsed?: number,
     dateCompleted?: Date,
-    rir?: number
+    rir: number
 }
 
 export class SetsModel {
     async create(data: createSetData): Promise<Set | null> {
-        const { category, repsPlanned, weightPlanned, exerciseId } = data
+        const { category, repsPlanned, weightPlanned, exerciseId, rir } = data
 
         return await prisma.set.create({
             data: {
                 category,
                 repsPlanned,
                 weightPlanned,
+                rir,
                 exerciseId
             }
         })
