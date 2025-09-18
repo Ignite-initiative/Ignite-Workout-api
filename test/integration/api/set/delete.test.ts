@@ -3,11 +3,12 @@ import jwt from 'jsonwebtoken'
 import orchestrator from '../../orchestrator';
 
 describe("DELETE on /exercise", () => {
-    let exerciseId: string
+    let setId: string
     let token: string
 
     beforeAll(async () => {
-        await orchestrator.waitForAllServices();
+        await orchestrator.waitForAllServices()
+        await prisma.set.deleteMany()
         await prisma.exercise.deleteMany()
         await prisma.workout.deleteMany()
         await prisma.user.deleteMany()
@@ -40,7 +41,17 @@ describe("DELETE on /exercise", () => {
             }
         })
 
-        exerciseId = exercise.id
+        const set = await prisma.set.create({
+          data: {
+            category: "valid",
+            repsPlanned: 10,
+            weightPlanned: 100,
+            rir: 1,
+            exerciseId: exercise.id
+          }
+        })
+
+        setId = set.id
 
         token = jwt.sign(
             {
@@ -54,6 +65,7 @@ describe("DELETE on /exercise", () => {
 
     })
     afterAll(async () => {
+        await prisma.set.deleteMany()
         await prisma.exercise.deleteMany()
         await prisma.workout.deleteMany()
         await prisma.user.deleteMany()
@@ -61,8 +73,8 @@ describe("DELETE on /exercise", () => {
     })
 
 
-    async function deleteExercise(id: string) {
-        const result = await fetch(`http://localhost:3000/api/v1/exercise/${id}`, {
+    async function deleteSet(id: string) {
+        const result = await fetch(`http://localhost:3000/api/v1/set/${id}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -74,12 +86,12 @@ describe("DELETE on /exercise", () => {
     }
 
     test("Should be return 200 if workout is deleted", async () => {
-        const result = await deleteExercise(exerciseId)
+        const result = await deleteSet(setId)
 
         expect(result.status).toBe(201)
     })
     test("should be return 401 if user does not have access", async () => {
-        const result = await fetch(`http://localhost:3000/api/v1/exercise/${exerciseId}`, {
+        const result = await fetch(`http://localhost:3000/api/v1/set/${setId}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
